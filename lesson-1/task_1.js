@@ -31,6 +31,12 @@ function BattleField() {
     };
 
     this.addFieldUnit = function(fieldUnit) {
+        if (that.getFieldUnit(fieldUnit.x, fieldUnit.y) !== null) {
+            throw new CellIsNotEmptyError(x, y);
+        }
+        if (fieldUnit.x > width || fieldUnit.y > height) {
+            throw new CellOutOfRangeError(x, y);
+        }
         if (fieldUnit.constructor.name === 'Tick') {
             placedTicks.push(fieldUnit);
         }
@@ -93,9 +99,6 @@ function Player() {
     };
 
     this.makeMove = function (x, y, battleField) {
-        if (battleField.getFieldUnit(x, y) !== null) {
-            throw new CellIsNotEmptyError(x, y);
-        }
         var tick = new Tick(x, y);
         battleField.addFieldUnit(tick);
     }
@@ -125,7 +128,12 @@ function Toe() {
 function CellIsNotEmptyError(x, y) {
     this.message = 'Cannot set value for cell ' + x + ' ' + y + '. Cell is not empty.';
 }
-CellIsNotEmptyError.prototype = Object.create(CellIsNotEmptyError.prototype);
+CellIsNotEmptyError.prototype = Object.create(Error.prototype);
+
+function CellOutOfRangeError(x, y) {
+    this.message = 'Cannot set value for cell ' + x + ' ' + y + '. Cell is out of the field range.';
+}
+CellOutOfRangeError.prototype = Object.create(Error.prototype);
 
 var game = new Game();
 var battleField = new BattleField();
