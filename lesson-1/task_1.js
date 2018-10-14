@@ -6,7 +6,6 @@ var readlineSync = require('readline-sync');
 
 var playerName = readlineSync.question('Please, print your name: ');
 
-
 function Game() {
     this.isFinished = function(battleField) {
         return false;
@@ -42,16 +41,24 @@ function BattleField() {
     function getFieldUnit(x, y) {
         var result = null;
 
-        placedTicks.forEach(function(placedTick) {
+        placedTicks.every(function(placedTick) {
             if (placedTick.hasCoordinate(x, y)) {
                 result = placedTick;
+                return false;
             }
+            return true;
         });
 
-        placedToes.forEach(function(placedToe) {
+        if (result !== null) {
+            return result;
+        }
+
+        placedToes.every(function(placedToe) {
             if (placedToe.hasCoordinate(x, y)) {
                 result = placedTick;
+                return false;
             }
+            return true;
         });
 
         return result;
@@ -61,17 +68,17 @@ function BattleField() {
         var fieldUnit = getFieldUnit(x, y);
 
         if (fieldUnit === null) {
-            return '.';
+            return ' . ';
         }
 
         if (fieldUnit.constructor.name === 'Tick') {
-            return 'X';
+            return ' X ' ;
         }
         if (fieldUnit.constructor.name === 'Toe') {
-            return '0';
+            return ' 0 ';
         }
 
-        return '.';
+        return ' . ';
     }
 }
 
