@@ -8,7 +8,13 @@ var playerName = readlineSync.question('Please, print your name: ');
 
 function Game() {
     this.isFinished = function(battleField) {
-        return false;
+        if (!battleField.isCompletelyFilled()) {
+            return false;
+        }
+
+        console.log('The game is finished');
+
+        return true;
     }
 }
 
@@ -82,6 +88,17 @@ function BattleField() {
         });
 
         return result;
+    };
+
+    this.isCompletelyFilled = function () {
+        for (y = 0; y < height; y++) {
+            for (x = 0; x < width; x++) {
+                if (that.getFieldUnit(x,y) === null) {
+                    return false;
+                }
+            }
+        }
+        return true;
     };
 
     function renderCoordinate(x, y) {
@@ -166,6 +183,9 @@ while (!game.isFinished(battleField)) {
         var x = readlineSync.question('Please, print X coordinate: ');
         var y = readlineSync.question('Please, print Y coordinate: ');
         player.makeMove(x, y, battleField);
+        if (game.isFinished(battleField)) {
+            break;
+        }
         aIplayer.makeMove(x, y, battleField);
         var output = battleField.render();
         console.log(output);
