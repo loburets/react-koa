@@ -34,15 +34,28 @@ function BattleField() {
         if (that.getFieldUnit(fieldUnit.x, fieldUnit.y) !== null) {
             throw new CellIsNotEmptyError(x, y);
         }
-        if (fieldUnit.x > width || fieldUnit.y > height) {
+        if (fieldUnit.x >= width || fieldUnit.y >= height) {
             throw new CellOutOfRangeError(x, y);
         }
+        that.placeFieldUnit(fieldUnit);
+    };
+
+    this.placeFieldUnit = function(fieldUnit) {
         if (fieldUnit.constructor.name === 'Tick') {
             placedTicks.push(fieldUnit);
         }
         if (fieldUnit.constructor.name === 'Toe') {
             placedToes.push(fieldUnit);
         }
+    };
+
+    this.getRandomFreeCoordinates = function () {
+        do {
+            var x = Math.floor(Math.random() * (width));
+            var y = Math.floor(Math.random() * (height));
+        } while (that.getFieldUnit(x,y) !== null);
+
+        return [x, y];
     };
 
     this.getFieldUnit = function(x, y) {
@@ -62,7 +75,7 @@ function BattleField() {
 
         placedToes.every(function(placedToe) {
             if (placedToe.hasCoordinate(x, y)) {
-                result = placedTick;
+                result = placedToe;
                 return false;
             }
             return true;
@@ -103,7 +116,13 @@ function Player() {
         battleField.addFieldUnit(tick);
     }
 }
-function AIPlayer() {}
+function AIPlayer() {
+    this.makeMove = function (x, y, battleField) {
+        var coordinates = battleField.getRandomFreeCoordinates();
+        var tick = new Toe(coordinates[0], coordinates[1]);
+        battleField.placeFieldUnit(tick);
+    }
+}
 AIPlayer.prototype = Object.create(Player.prototype);
 
 function FieldUnit(x, y) {
@@ -140,13 +159,14 @@ var battleField = new BattleField();
 var player = new Player();
 player.setName(playerName);
 console.log('You name is: ', player.getName());
-var AIplayer = new AIPlayer('AI');
+var aIplayer = new AIPlayer('AI');
 
 while (!game.isFinished(battleField)) {
     try {
         var x = readlineSync.question('Please, print X coordinate: ');
         var y = readlineSync.question('Please, print Y coordinate: ');
         player.makeMove(x, y, battleField);
+        aIplayer.makeMove(x, y, battleField);
         var output = battleField.render();
         console.log(output);
     } catch (e) {
