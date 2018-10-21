@@ -2,14 +2,47 @@
 
 const readline = require('readline');
 
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
+function ask() {
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
 
-rl.question('What do you think of Node.js? ', (answer) => {
-    // TODO: Log the answer in a database
-    console.log(`Thank you for your valuable feedback: ${answer}`);
+    return new Promise((resolve, reject) => {
+        rl.question('What do you think of Node.js? ', (answer) => {
+            if (!answer.match(/\d+/g)) {
+                reject(`The ${answer} is not a number`);
+            }
+            resolve(answer);
+            rl.close();
+        });
+    });
+}
 
-    rl.close();
-});
+let answers = [];
+
+ask()
+    .then(result => {
+        answers.push(result);
+        return ask();
+    })
+    .then(result => {
+        answers.push(result);
+        return ask();
+    })
+    .then(result => {
+        answers.push(result);
+        return ask();
+    })
+    .then(result => {
+        answers.push(result);
+        return ask();
+    })
+    .then(result => {
+        answers.push(result);
+        let min = answers.sort((a,b) => b - a).pop();
+        console.log(`Min value is ${min}`);
+    })
+    .catch(error => {
+        console.log(error)
+    });
