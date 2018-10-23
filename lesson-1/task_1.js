@@ -27,7 +27,7 @@ function BattleField() {
 
     this.render = function () {
         var result = '';
-        for (y = 0; y < height; y++) {
+        for (var y = 0; y < height; y++) {
             for (x = 0; x < width; x++) {
                 result += renderCoordinate(x, y);
             }
@@ -37,20 +37,20 @@ function BattleField() {
     };
 
     this.addFieldUnit = function(fieldUnit) {
-        if (that.getFieldUnit(fieldUnit.x, fieldUnit.y) !== null) {
+        if (this.getFieldUnit(fieldUnit.x, fieldUnit.y) !== null) {
             throw new CellIsNotEmptyError(x, y);
         }
         if (fieldUnit.x >= width || fieldUnit.y >= height) {
             throw new CellOutOfRangeError(x, y);
         }
-        that.placeFieldUnit(fieldUnit);
+        this.placeFieldUnit(fieldUnit);
     };
 
     this.placeFieldUnit = function(fieldUnit) {
-        if (fieldUnit.constructor.name === 'Tick') {
+        if (fieldUnit.name === 'Tick') {
             placedTicks.push(fieldUnit);
         }
-        if (fieldUnit.constructor.name === 'Toe') {
+        if (fieldUnit.name === 'Toe') {
             placedToes.push(fieldUnit);
         }
     };
@@ -108,10 +108,10 @@ function BattleField() {
             return ' . ';
         }
 
-        if (fieldUnit.constructor.name === 'Tick') {
+        if (fieldUnit.name === 'Tick') {
             return ' X ' ;
         }
-        if (fieldUnit.constructor.name === 'Toe') {
+        if (fieldUnit.name === 'Toe') {
             return ' 0 ';
         }
 
@@ -145,21 +145,23 @@ AIPlayer.prototype = Object.create(Player.prototype);
 function FieldUnit(x, y) {
     this.x = x;
     this.y = y;
-
-    this.hasCoordinate = function (x, y) {
-        return this.x == x && this.y == y;
-    }
 }
 
-function Tick() {
-    // used instead of prototype to save constructor name
-    FieldUnit.apply(this, arguments);
-}
+FieldUnit.prototype.hasCoordinate = function (x, y) {
+    return this.x == x && this.y == y;
+};
 
-function Toe() {
-    // used instead of prototype to save constructor name
-    FieldUnit.apply(this, arguments);
+function Tick(x, y) {
+    FieldUnit.call(this, x,y);
+    this.name = 'Tick';
 }
+Tick.prototype = Object.create(FieldUnit.prototype);
+
+function Toe(x, y) {
+    FieldUnit.call(this, x,y);
+    this.name = 'Toe';
+}
+Toe.prototype = Object.create(FieldUnit.prototype);
 
 function CellIsNotEmptyError(x, y) {
     this.message = 'Cannot set value for cell ' + x + ' ' + y + '. Cell is not empty.';
