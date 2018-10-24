@@ -9,7 +9,7 @@ function ask() {
     });
 
     return new Promise((resolve, reject) => {
-        rl.question('What do you think of Node.js? ', (answer) => {
+        rl.question('Enter some number ', (answer) => {
             if (!answer.match(/\d+/g)) {
                 reject(`The ${answer} is not a number`);
             }
