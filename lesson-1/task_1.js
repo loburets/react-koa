@@ -145,23 +145,20 @@ AIPlayer.prototype = Object.create(Player.prototype);
 function FieldUnit(x, y) {
     this.x = x;
     this.y = y;
+    this.hasCoordinate = function (x, y) {
+        return this.x == x && this.y == y;
+    }
 }
-
-FieldUnit.prototype.hasCoordinate = function (x, y) {
-    return this.x == x && this.y == y;
-};
 
 function Tick(x, y) {
     FieldUnit.call(this, x,y);
     this.name = 'Tick';
 }
-Tick.prototype = Object.create(FieldUnit.prototype);
 
 function Toe(x, y) {
     FieldUnit.call(this, x,y);
     this.name = 'Toe';
 }
-Toe.prototype = Object.create(FieldUnit.prototype);
 
 function CellIsNotEmptyError(x, y) {
     this.message = 'Cannot set value for cell ' + x + ' ' + y + '. Cell is not empty.';
