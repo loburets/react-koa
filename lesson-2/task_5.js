@@ -2,7 +2,7 @@
 
 const readline = require('readline');
 
-function ask() {
+function ask(minValue = null) {
     const rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout
@@ -10,38 +10,37 @@ function ask() {
 
     return new Promise((resolve, reject) => {
         rl.question('Enter some number ', (answer) => {
+            if (answer.length === 0) {
+                reject('Empty input');
+            }
             if (!answer.match(/\d+/g)) {
                 reject(`The ${answer} is not a number`);
             }
-            resolve(answer);
+            if (minValue !== null) {
+                resolve(Math.min(answer, minValue));
+            } else {
+                resolve(answer);
+            }
             rl.close();
         });
     });
 }
 
-let answers = [];
-
 ask()
     .then(result => {
-        answers.push(result);
-        return ask();
+        return ask(result);
     })
     .then(result => {
-        answers.push(result);
-        return ask();
+        return ask(result);
     })
     .then(result => {
-        answers.push(result);
-        return ask();
+        return ask(result);
     })
     .then(result => {
-        answers.push(result);
-        return ask();
+        return ask(result);
     })
     .then(result => {
-        answers.push(result);
-        let min = answers.sort((a,b) => b - a).pop();
-        console.log(`Min value is ${min}`);
+        console.log(`Min value is ${result}`);
     })
     .catch(error => {
         console.log(error)

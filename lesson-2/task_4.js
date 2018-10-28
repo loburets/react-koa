@@ -12,7 +12,7 @@ class Animal {
     }
 
     get nameAndColor() {
-        return this.color + ' ' + this.name;
+        return `${this.color} ${this.name}`;
     }
 
     eat(energy) {
@@ -34,7 +34,7 @@ class Cat extends Animal {
     }
 
     say(message = '') {
-        super.say('Meow ' +  message);
+        super.say(`Meow ${message}`);
     }
 
     eat(energy) {
@@ -47,7 +47,7 @@ class Cat extends Animal {
     catchMouse() {
         const ENERGY_COST = 20;
         if (this.energy < ENERGY_COST) {
-            this.say('Not enough energy to catch the mouse')
+            this.say('Not enough energy to catch the mouse');
             return;
         }
         this.energy -= ENERGY_COST;
@@ -67,7 +67,7 @@ class Dog extends Animal {
     }
 
     say(message = '') {
-        super.say('Woof ' +  message);
+        super.say(`Woof ${message}`);
     }
 
     eat(energy) {
