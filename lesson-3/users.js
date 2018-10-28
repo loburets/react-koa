@@ -19,6 +19,24 @@ class UserRepository {
 
         return null;
     }
+
+    update (id, data) {
+        let user = this.find(id);
+
+        if (!user) {
+            return null;
+        }
+
+        for (let field in data) {
+            if (!user.hasOwnProperty(field)) {
+                return `Wrong property name ${field}`;
+            }
+
+            user[field] = data[field];
+        }
+
+        return user;
+    }
 }
 
 module.exports = UserRepository;

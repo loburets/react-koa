@@ -12,6 +12,11 @@ class Router {
             return;
         }
 
+        if (method === 'PUT' && userId) {
+            response.end(JSON.stringify(userRepository.update(userId, bodyData)));
+            return;
+        }
+
         if (method === 'GET' && url === '/users/') {
             response.end(JSON.stringify(userRepository.users));
             return;
