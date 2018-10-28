@@ -21,10 +21,6 @@ const requestHandler = (request, response) => {
 
         response.setHeader('Content-Type', 'application/json');
         Router.route(request.method, request.url, response, bodyData);
-
-        if (!response.finished) {
-            response.end();
-        }
     });
 };
 

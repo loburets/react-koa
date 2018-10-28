@@ -3,13 +3,14 @@ let userRepository = new UserRepository();
 
 class Router {
     static route (method, url, response, bodyData) {
-        let urlParts = url.match(/^\/users\/(\d+)/);
+        let urlParts = url.match(/^\/users\/([0-9]+)$/);
         let userId = urlParts ? urlParts[1] : null;
         response.statusCode = 200;
 
         if (userId && !userRepository.find(userId)) {
-            response.end('User not found');
             response.statusCode = 404;
+            response.end('User not found');
+
             return;
         }
 
@@ -28,8 +29,8 @@ class Router {
         }
 
         if (method === 'DELETE' && userId) {
-            response.end(JSON.stringify(userRepository.remove(userId)));
             response.statusCode = 204;
+            response.end(JSON.stringify(userRepository.remove(userId)));
             return;
         }
 
@@ -40,12 +41,13 @@ class Router {
 
         if (method === 'POST' && url === '/users/') {
             let user = userRepository.addUser(bodyData);
-            response.end(JSON.stringify(user));
             response.statusCode = 201;
+            response.end(JSON.stringify(user));
             return;
         }
 
         response.statusCode = 404;
+        response.end();
     }
 }
 
