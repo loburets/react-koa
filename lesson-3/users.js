@@ -28,6 +28,10 @@ class UserRepository {
         }
 
         for (let field in data) {
+            if (field === id) {
+                continue;
+            }
+
             if (!user.hasOwnProperty(field)) {
                 return `Wrong property name ${field}`;
             }
@@ -36,6 +40,14 @@ class UserRepository {
         }
 
         return user;
+    }
+
+    remove (id) {
+        this.users = this.users.filter(function (user) {
+            return Number(user.id) !== Number(id);
+        });
+
+        return 'User is deleted';
     }
 }
 

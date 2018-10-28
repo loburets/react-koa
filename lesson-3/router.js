@@ -1,8 +1,8 @@
 const UserRepository = require('./users');
+let userRepository = new UserRepository();
 
 class Router {
     static route (method, url, response, bodyData) {
-        let userRepository = new UserRepository();
         let urlParts = url.match(/^\/users\/(\d+)/);
         let userId = urlParts ? urlParts[1] : null;
         response.statusCode = 200;
@@ -14,6 +14,11 @@ class Router {
 
         if (method === 'PUT' && userId) {
             response.end(JSON.stringify(userRepository.update(userId, bodyData)));
+            return;
+        }
+
+        if (method === 'DELETE' && userId) {
+            response.end(JSON.stringify(userRepository.remove(userId)));
             return;
         }
 
