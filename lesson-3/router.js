@@ -3,8 +3,14 @@ const UserRepository = require('./users');
 class Router {
     static route (method, url, response, bodyData) {
         let userRepository = new UserRepository();
-
+        let urlParts = url.match(/^\/users\/(\d+)/);
+        let userId = urlParts ? urlParts[1] : null;
         response.statusCode = 200;
+
+        if (method === 'GET' && userId) {
+            response.end(JSON.stringify(userRepository.find(userId)));
+            return;
+        }
 
         if (method === 'GET' && url === '/users/') {
             response.end(JSON.stringify(userRepository.users));
