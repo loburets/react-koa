@@ -4,8 +4,14 @@ const host = '127.0.0.1';
 const Router = require('./router');
 
 const requestHandler = (request, response) => {
-    Router.route(request.method, request.url);
-    response.end();
+    console.log(`${request.method} request to "${request.url}"`);
+
+    response.setHeader('Content-Type', 'application/json');
+    Router.route(request.method, request.url, response);
+
+    if (!response.finished) {
+        response.end();
+    }
 };
 
 const server = http.createServer(requestHandler);
