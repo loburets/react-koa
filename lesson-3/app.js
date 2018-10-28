@@ -1,10 +1,11 @@
 const http = require('http');
 const port = process.env.PORT || 8000;
 const host = '127.0.0.1';
+const Router = require('./router');
 
 const requestHandler = (request, response) => {
-    console.log(request.url);
-    response.end('Hello Node.js Server!');
+    Router.route(request.method, request.url);
+    response.end();
 };
 
 const server = http.createServer(requestHandler);
