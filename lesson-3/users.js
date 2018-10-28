@@ -23,10 +23,6 @@ class UserRepository {
     update (id, data) {
         let user = this.find(id);
 
-        if (!user) {
-            return null;
-        }
-
         for (let field in data) {
             if (field === id) {
                 continue;
