@@ -6,12 +6,26 @@ const Router = require('./router');
 const requestHandler = (request, response) => {
     console.log(`${request.method} request to "${request.url}"`);
 
-    response.setHeader('Content-Type', 'application/json');
-    Router.route(request.method, request.url, response);
+    let rawBodyData = '';
+    request.on('data', (chunk) => { rawBodyData += chunk; });
+    request.on('end', () => {
+        let bodyData = null;
+        if (rawBodyData.length > 0) {
+            try {
+                bodyData = JSON.parse(rawBodyData);
+            } catch (e) {
+                response.end('wrong Json');
+                return
+            }
+        }
 
-    if (!response.finished) {
-        response.end();
-    }
+        response.setHeader('Content-Type', 'application/json');
+        Router.route(request.method, request.url, response, bodyData);
+
+        if (!response.finished) {
+            response.end();
+        }
+    });
 };
 
 const server = http.createServer(requestHandler);
