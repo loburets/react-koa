@@ -1,0 +1,51 @@
+{
+  "name": "project-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon --watch backend ./backend/app.js",
+    "debug": "nodemon --watch backend --inspect ./backend/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docker-build": "docker-compose build --no-cache",
+    "docker-start": "docker-compose up",
+    "docker-clean": "docker-compose stop && docker-compose down --rmi local --volumes --remove-orphans",
+    "eslint": "eslint --color ./",
+    "postinstall": "cd frontend && npm i && cd ..",
+    "precommit": "npm run eslint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/ttschool/project-template.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/ttschool/project-template#readme",
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "koa": "^2.6.1",
+    "koa-static": "^4.0.2",
+    "webpack": "^3.11.0"
+  },
+  "devDependencies": {
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^0.28.9",
+    "eslint": "^4.17.0",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "husky": "^0.14.3",
+    "nodemon": "^1.18.5",
+    "postcss-browser-reporter": "^0.5.0",
+    "postcss-cssnext": "^3.1.0",
+    "postcss-import": "^11.1.0",
+    "postcss-loader": "^2.1.0",
+    "postcss-reporter": "^5.0.0",
+    "postcss-url": "^7.3.0",
+    "style-loader": "^0.20.1"
+  },
+  "engines": {
+    "node": "10"
+  }
+}
