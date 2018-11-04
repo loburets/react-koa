@@ -24,8 +24,10 @@
   "dependencies": {
     "babel-core": "^6.26.0",
     "koa": "^2.6.1",
+    "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
     "koa-static": "^4.0.2",
+    "koa2-validation": "^0.1.0",
     "webpack": "^3.11.0"
   },
   "devDependencies": {

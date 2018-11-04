@@ -5,7 +5,8 @@ const PORT = 3000;
 const Koa = require('koa');
 const serve = require('koa-static');
 const webpack = require('webpack');
-const router = require('./routes')
+const router = require('./routes');
+const bodyParser = require('koa-bodyparser');
 
 const port = process.env.PORT || PORT;
 const app = new Koa();
@@ -36,6 +37,21 @@ app.listen(port, () => {
   console.log(`Server is started on ${port} port`);
   /* eslint-enable no-console */
 });
+
+// error handler
+app.use(async (ctx, next) => {
+    try {
+        await next();
+    } catch (err) {
+        ctx.status = err.status || err.code;
+        ctx.body = {
+            success: false,
+            message: err.message,
+        };
+    }
+});
+
+app.use(bodyParser());
 
 app.use(router.routes())
     .use(router.allowedMethods());

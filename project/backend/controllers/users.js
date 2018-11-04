@@ -16,7 +16,6 @@ exports.getUser = ctx => {
 
 exports.createUser = ctx => {
 
-
     const data = {
         name: 'Vasya',
         message: `You have created new User!`
