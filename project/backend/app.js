@@ -5,7 +5,7 @@ const PORT = 3000;
 const Koa = require('koa');
 const serve = require('koa-static');
 const webpack = require('webpack');
-const router = require('./routes/route')
+const router = require('./routes')
 
 const port = process.env.PORT || PORT;
 const app = new Koa();
