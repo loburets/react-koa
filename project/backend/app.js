@@ -5,6 +5,7 @@ const PORT = 3000;
 const Koa = require('koa');
 const serve = require('koa-static');
 const webpack = require('webpack');
+const router = require('./routes/route')
 
 const port = process.env.PORT || PORT;
 const app = new Koa();
@@ -35,3 +36,6 @@ app.listen(port, () => {
   console.log(`Server is started on ${port} port`);
   /* eslint-enable no-console */
 });
+
+app.use(router.routes())
+    .use(router.allowedMethods());
