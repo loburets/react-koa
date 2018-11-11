@@ -1,3 +1,5 @@
+const db = require('../models');
+
 exports.getUser = ctx => {
     let id = ctx.params.id;
 
@@ -14,12 +16,13 @@ exports.getUser = ctx => {
     return ctx.body = data;
 };
 
-exports.createUser = ctx => {
+exports.createUser = async ctx => {
+    const body = ctx.request.body;
+    const user = await db.User.create({
+        first_name: body.firstName,
+        last_name: body.lastName,
+        email: body.email,
+    });
 
-    const data = {
-        name: 'Vasya',
-        message: `You have created new User!`
-    };
-
-    return ctx.body = data;
+    return ctx.body = user;
 };
