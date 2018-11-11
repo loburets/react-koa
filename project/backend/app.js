@@ -5,7 +5,8 @@ const PORT = 3000;
 const Koa = require('koa');
 const serve = require('koa-static');
 const webpack = require('webpack');
-const router = require('./routes');
+const router = require('./router');
+const errorHandler = require('./error-handler');
 const bodyParser = require('koa-bodyparser');
 
 const port = process.env.PORT || PORT;
@@ -39,17 +40,7 @@ app.listen(port, () => {
 });
 
 // error handler
-app.use(async (ctx, next) => {
-    try {
-        await next();
-    } catch (err) {
-        ctx.status = err.status || err.code;
-        ctx.body = {
-            success: false,
-            message: err.message,
-        };
-    }
-});
+app.use(errorHandler);
 
 app.use(bodyParser());
 
