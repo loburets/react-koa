@@ -39,10 +39,7 @@ app.listen(port, () => {
   /* eslint-enable no-console */
 });
 
-// error handler
-app.use(errorHandler);
-
-app.use(bodyParser());
-
-app.use(router.routes())
+app.use(errorHandler)
+    .use(bodyParser())
+    .use(router.routes())
     .use(router.allowedMethods());
