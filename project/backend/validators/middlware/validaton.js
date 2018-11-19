@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const Joi = require('joi');
 const filterJoi = require('./joi-filter');
+const processJoiErrors = require('./error-sanitizer').processJoiErrors
 
 module.exports = function getErrors(ctx, next, schema) {
     const { opt = {} } = schema;
@@ -22,14 +23,7 @@ module.exports = function getErrors(ctx, next, schema) {
         if (!result.error) {
             return;
         }
-
-        result.error.details.forEach(function(error) {
-            errors.push({
-                message: error.message,
-                field: error.path[0],
-                type: error.type
-            });
-        });
+        errors.push(...processJoiErrors(result));
     });
 
     return errors;
