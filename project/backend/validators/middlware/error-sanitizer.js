@@ -1,9 +1,9 @@
-exports.processJoiErrors = function processJoiErrors(result) {
+exports.processJoiErrors = function processJoiErrors(joiErrors) {
     const errors = [];
     const requiredValidationType = 'any.empty';
     // filter other errors of a field if the field has empty value
-    const joiErrors = result.error.details.filter((joiError) => {
-        let requiredErrorExistsForThisField = !!result.error.details.find(function (anotherError) {
+    joiErrors = joiErrors.filter((joiError) => {
+        let requiredErrorExistsForThisField = !!joiErrors.find(function (anotherError) {
             return anotherError.type === requiredValidationType
                 && anotherError.path[0] === joiError.path[0];
         });

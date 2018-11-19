@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const Joi = require('joi');
 const filterJoi = require('./joi-filter');
-const processJoiErrors = require('./error-sanitizer').processJoiErrors
+const processJoiErrors = require('./error-sanitizer').processJoiErrors;
 
 module.exports = function getErrors(ctx, next, schema) {
     const { opt = {} } = schema;
@@ -20,10 +20,10 @@ module.exports = function getErrors(ctx, next, schema) {
         let joiSchemaForThisItem = filterJoi(schema[item], true);
         const result = Joi.validate(toValidateObj, joiSchemaForThisItem, options);
 
-        if (!result.error) {
-            return;
+        if (result.error) {
+            errors.push(...processJoiErrors(result.error.details));
         }
-        errors.push(...processJoiErrors(result));
+
     });
 
     return errors;
