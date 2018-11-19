@@ -13,7 +13,7 @@ exports.getUser = ctx => {
         message: `You have got ${id} User!`
     };
 
-    return ctx.body = data;
+    ctx.body = data;
 };
 
 exports.createUser = async ctx => {
@@ -24,5 +24,5 @@ exports.createUser = async ctx => {
         email: body.email,
     });
 
-    return ctx.body = user;
+    ctx.body = user;
 };

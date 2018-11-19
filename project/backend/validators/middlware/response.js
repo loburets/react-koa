@@ -1,4 +1,4 @@
-module.exports = function setErrorResponse(errors, ctx) {
+module.exports = (errors, ctx) => {
     let data = errors.map((error) => {
         return {
             message: error.message.replace(/"/g, ''),
