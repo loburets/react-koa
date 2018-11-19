@@ -6,7 +6,6 @@ const Koa = require('koa');
 const serve = require('koa-static');
 const webpack = require('webpack');
 const router = require('./router');
-const errorHandler = require('./error-handler');
 const bodyParser = require('koa-bodyparser');
 
 const port = process.env.PORT || PORT;
@@ -39,7 +38,6 @@ app.listen(port, () => {
   /* eslint-enable no-console */
 });
 
-app.use(errorHandler)
-    .use(bodyParser())
+app.use(bodyParser())
     .use(router.routes())
     .use(router.allowedMethods());

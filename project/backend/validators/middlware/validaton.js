@@ -2,12 +2,12 @@ const _ = require('lodash');
 const Joi = require('joi');
 const filterJoi = require('./joi-filter');
 const processJoiErrors = require('./error-sanitizer').processJoiErrors;
+const customValidator = require('../custom');
 
-module.exports = function getErrors(ctx, next, schema) {
+exports.getErrors = async (ctx, next, schema) => {
     const { opt = {} } = schema;
 
     const options = _.defaultsDeep(opt, {
-        // allowUnknown: true,
         abortEarly: false
     });
 
@@ -15,16 +15,24 @@ module.exports = function getErrors(ctx, next, schema) {
     const needValidateKeys = _.intersection(defaultValidateKeys, Object.keys(schema));
     const errors = [];
 
-    needValidateKeys.find((item) => {
+    for (let index = 0; index < needValidateKeys.length; index++) {
+        let item = needValidateKeys[index]
         const toValidateObj = item === 'body' ? ctx.request.body : ctx[item];
+        // use not all the schema, but only the joi rules
         let joiSchemaForThisItem = filterJoi(schema[item], true);
-        const result = Joi.validate(toValidateObj, joiSchemaForThisItem, options);
+        const joiValidation = Joi.validate(toValidateObj, joiSchemaForThisItem, options);
 
-        if (result.error) {
-            errors.push(...processJoiErrors(result.error.details));
+        if (joiValidation.error) {
+            errors.push(...processJoiErrors(joiValidation.error.details));
         }
 
-    });
+        // use not all the schema, but only the custom rules
+        let customSchemaForThisItem = filterJoi(schema[item], false);
+        const customValidation = await customValidator.validate(toValidateObj, customSchemaForThisItem);
+        if (customValidation.error) {
+            errors.push(...customValidation.error.details);
+        }
+    }
 
     return errors;
 };
