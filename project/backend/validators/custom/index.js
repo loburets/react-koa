@@ -7,21 +7,16 @@ exports.validate = async (toValidateObj, schema) => {
     };
     let errors = [];
 
-    for (let field in toValidateObj) {
-        if (!toValidateObj.hasOwnProperty(field)) {
+    for (let fieldName in toValidateObj) {
+        if (!toValidateObj.hasOwnProperty(fieldName)) {
             continue;
         }
-        if (!schema.hasOwnProperty(field)) {
+        if (!schema.hasOwnProperty(fieldName)) {
             continue;
         }
-        for (let index = 0; index < schema[field].length; index++) {
-            let rule = schema[field][index];
-            if (typeof rule === 'undefined') {
-                continue;
-            }
-            let fieldErrors = await rulesProvider.getErrors(rule, field, toValidateObj[field]);
-            errors.push(...fieldErrors);
-        }
+        let rules = schema[fieldName];
+        let value = toValidateObj[fieldName];
+        await setErrors(rules, fieldName, value, errors);
     }
 
     if (errors.length !== 0) {
@@ -31,3 +26,14 @@ exports.validate = async (toValidateObj, schema) => {
 
     return result;
 };
+
+async function setErrors(rules, fieldName, value, errors) {
+    for (let index = 0; index < rules.length; index++) {
+        let rule = rules[index];
+        if (typeof rule === 'undefined') {
+            continue;
+        }
+        let fieldErrors = await rulesProvider.getErrors(rule, fieldName, value);
+        errors.push(...fieldErrors);
+    }
+}
