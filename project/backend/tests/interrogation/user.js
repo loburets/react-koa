@@ -8,6 +8,7 @@ let it = require('mocha').it;
 
 describe('get user', function() {
     describe('main case', function() {
+        // todo extend the test
         it('user should be returned with user fields', async () => {
             const response = await chai.request(server)
                 .get('/users/32')

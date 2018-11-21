@@ -16,6 +16,14 @@ exports.getUser = ctx => {
     ctx.body = data;
 };
 
+exports.getMe = ctx => {
+    if (ctx.isUnauthenticated()) {
+        ctx.throw(401, 'Unauthenticated');
+    }
+    ctx.status = 200;
+    ctx.body = ctx.state.user;
+};
+
 exports.createUser = async ctx => {
     const body = ctx.request.body;
     const user = await db.User.create({

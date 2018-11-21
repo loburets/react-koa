@@ -7,6 +7,11 @@ const serve = require('koa-static');
 const webpack = require('webpack');
 const router = require('./router');
 const bodyParser = require('koa-bodyparser');
+const passport = require('./auth/passport');
+const session = require('koa-generic-session');
+const db = require('./models');
+// todo replace to some proper session storage like as Redis
+const SequelizeSessionStore = require('koa-generic-session-sequelize');
 
 const port = process.env.PORT || PORT;
 const app = new Koa();
@@ -30,6 +35,9 @@ compiler.watch({}, () => {
   /* eslint-enable no-console */
 });
 
+// todo move to config
+app.keys = ['some secret'];
+
 app.use(serve('public'));
 
 let server = app.listen(port, () => {
@@ -39,6 +47,15 @@ let server = app.listen(port, () => {
 });
 
 app.use(bodyParser())
+    .use(session({
+        store: new SequelizeSessionStore(
+            db.sequelize, {
+                tableName: 'sessions',
+            },
+        )
+    }))
+    .use(passport.initialize())
+    .use(passport.session())
     .use(router.routes())
     .use(router.allowedMethods());
 
