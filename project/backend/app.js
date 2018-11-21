@@ -32,7 +32,7 @@ compiler.watch({}, () => {
 
 app.use(serve('public'));
 
-app.listen(port, () => {
+let server = app.listen(port, () => {
   /* eslint-disable no-console */
   console.log(`Server is started on ${port} port`);
   /* eslint-enable no-console */
@@ -41,3 +41,5 @@ app.listen(port, () => {
 app.use(bodyParser())
     .use(router.routes())
     .use(router.allowedMethods());
+
+module.exports = server;
