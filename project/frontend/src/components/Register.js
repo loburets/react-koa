@@ -13,9 +13,16 @@ class Register extends React.Component {
                 lastName: '',
                 email: '',
                 password: '',
-            }
+            },
+            errors: {}
         };
     }
+
+    setErrors(data) {
+        let errors = [];
+        data.forEach((error) => errors.push({input:error.field, message:error.message}));
+        this.setState({errors});
+    };
 
     // todo use HOC or composition to use in other forms
     handleSubmit(event) {
@@ -26,11 +33,12 @@ class Register extends React.Component {
             },
             body: JSON.stringify(this.state.inputs)
         })
+            .then(() => {this.setState({errors: {}})})
             .then(RequestHelper.throwIfErrorStatus)
             .then(data => data.json())
             .then(data => console.log(data))
             .catch(error => error.response.json())
-            .then(data => console.log(data))
+            .then(data => this.setErrors(data))
 
         event.preventDefault();
     }
