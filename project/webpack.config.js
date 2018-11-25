@@ -15,6 +15,17 @@ const config = {
   module : {
     loaders : [
       {
+          test: /\.scss$/,
+          use: ExtractTextPlugin.extract({
+              fallback: 'style-loader',
+              use: ['css-loader', 'sass-loader']
+          })
+      },
+      {
+        test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+        loader: 'url-loader?limit=100000'
+      },
+      {
         test : /\.js?/,
         include : APP_DIR,
         loader : 'babel-loader'
