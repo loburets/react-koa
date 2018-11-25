@@ -1,8 +1,8 @@
 module.exports = (errors, ctx) => {
     let data = errors.map((error) => {
         return {
-            message: error.message.replace(/"/g, ''),
-            field: error.path,
+            message: error.message,
+            field: error.field,
             type: error.type
         }
     });
