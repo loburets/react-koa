@@ -22,8 +22,8 @@ class BaseInput extends React.Component {
                     id={this.props.id}
                     placeholder={this.props.placeholder}
                     onChange={this.handleInputChange}
-                    // required={Boolean(this.props.required)}
                     required={this.props.required}
+                    value={this.props.value}
                 />
             </div>
         );
@@ -36,7 +36,7 @@ BaseInput.propTypes = {
     title: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    placeholder: PropTypes.string.isRequired,
+    placeholder: PropTypes.string,
     required: PropTypes.bool,
 };
 

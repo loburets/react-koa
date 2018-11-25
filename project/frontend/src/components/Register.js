@@ -1,17 +1,37 @@
 import React from 'react';
 import BaseInput from './BaseInput';
+import RequestHelper from '../utils/RequestHelper';
 
 class Register extends React.Component {
     constructor(props) {
         super(props);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-
+        this.state = {
+            inputs: {
+                firstName: '',
+                lastName: '',
+                email: '',
+                password: '',
+            }
+        };
     }
 
-    // todo use HOC or compostition something to use in other forms
+    // todo use HOC or composition to use in other forms
     handleSubmit(event) {
-        console.log('Form was submitted: ',  this.state);
+        fetch('/api/v1/users', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(this.state.inputs)
+        })
+            .then(RequestHelper.throwIfErrorStatus)
+            .then(data => data.json())
+            .then(data => console.log(data))
+            .catch(error => error.response.json())
+            .then(data => console.log(data))
+
         event.preventDefault();
     }
 
@@ -21,7 +41,7 @@ class Register extends React.Component {
         const name = target.name;
 
         this.setState({
-            [name]: value
+            inputs: {...this.state.inputs, [name]: value}
         });
     }
 
@@ -29,12 +49,31 @@ class Register extends React.Component {
         return (
             <form onSubmit={this.handleSubmit}>
                 <BaseInput handleInputChange={this.handleInputChange}
+                           title={"First name"}
+                           id={"register_input__first-name"}
+                           type={"test"}
+                           name={"firstName"}
+                           placeholder={"First name"}
+                           required={true}
+                           value={this.state.firstName}
+                />
+                <BaseInput handleInputChange={this.handleInputChange}
+                           title={"Last name"}
+                           id={"register_input__last-name"}
+                           type={"test"}
+                           name={"lastName"}
+                           placeholder={"Last name"}
+                           required={true}
+                           value={this.state.lastName}
+                />
+                <BaseInput handleInputChange={this.handleInputChange}
                            title={"Email address"}
                            id={"register_input__email"}
                            type={"email"}
                            name={"email"}
                            placeholder={"Enter email"}
                            required={true}
+                           value={this.state.email}
                 />
                 <BaseInput handleInputChange={this.handleInputChange}
                            title={"Password"}
@@ -43,6 +82,7 @@ class Register extends React.Component {
                            name={"password"}
                            placeholder={"Password"}
                            required={true}
+                           value={this.state.password}
                 />
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>
