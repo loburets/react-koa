@@ -5,6 +5,7 @@ This repo contains the template of the project for TT Developers School 2018.
 ## Requirements:
 1. Node v10.x
 2. NPM v5.x
+3. MysQL
 
 ## How to install requirements:
 1. npm install
@@ -12,6 +13,7 @@ This repo contains the template of the project for TT Developers School 2018.
 
 ## How to run app:
 1. npm start
+2. open http://localhost:3000/
 
 ## Repo contains:
 1. docker-compose file with postgres db. You can change db_user and db_password in docker-compose.yml file.
