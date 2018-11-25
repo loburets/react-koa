@@ -37,6 +37,7 @@
     "webpack": "^3.11.0"
   },
   "devDependencies": {
+    "babel-eslint": "^10.0.1",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
@@ -45,6 +46,7 @@
     "chai-http": "^4.2.0",
     "css-loader": "^0.28.9",
     "eslint": "^4.17.0",
+    "eslint-plugin-react": "^7.11.1",
     "extract-text-webpack-plugin": "^3.0.2",
     "husky": "^0.14.3",
     "koa-passport": "^4.1.1",
