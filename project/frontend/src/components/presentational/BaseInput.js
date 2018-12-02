@@ -38,6 +38,7 @@ BaseInput.propTypes = {
     name: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
     required: PropTypes.bool,
+    value: PropTypes.any,
 };
 
 export default BaseInput;
