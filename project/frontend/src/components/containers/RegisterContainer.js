@@ -7,6 +7,7 @@ class RegisterContainer extends React.Component {
         super(props);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.setErrors = this.setErrors.bind(this);
         this.state = {
             inputs: {
                 firstName: '',
@@ -14,7 +15,7 @@ class RegisterContainer extends React.Component {
                 email: '',
                 password: '',
             },
-            errors: {}
+            errors: []
         };
     }
 
@@ -27,13 +28,21 @@ class RegisterContainer extends React.Component {
             },
             body: JSON.stringify(this.state.inputs)
         })
-            .then(() => {this.setState({errors: {}})})
+            // reset errors from the last call if they exist
+            .then((data) => {
+                this.setState({errors: []});
+                return data
+            })
             .then(RequestHelper.throwIfErrorStatus)
             .then(data => data.json())
             // todo save to redux
             .then(data => console.log(data))
-            .catch(error => error.response.json())
-            .then(data => this.setErrors(data));
+            .catch((error) => {
+                if (!error.response || error.response.status !== 422) {
+                    return [];
+                }
+                return error.response.json().then(this.setErrors);
+            });
 
         event.preventDefault();
     }

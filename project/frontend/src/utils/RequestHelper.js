@@ -3,7 +3,7 @@ class RequestHelper {
         if (response.status >= 200 && response.status < 300) {
             return response
         } else {
-            let error = new Error(response.statusText);
+            let error = new Error(`Response error ${response.status}: ${response.statusText}`);
             error.response = response;
             throw error
         }

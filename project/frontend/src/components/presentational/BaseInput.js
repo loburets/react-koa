@@ -12,8 +12,14 @@ class BaseInput extends React.Component {
     }
 
     render() {
+        const errors = this.props.errors.map((error, index) =>
+            <span key={index} className="help-block">
+                <strong>{error.message}</strong>
+            </span>
+        );
+
         return (
-            <div className="form-group">
+            <div className={"form-group " + (this.props.errors.length ? 'has-error' : '')}>
                 <label htmlFor={this.props.id}>{this.props.title}</label>
                 <input
                     type={this.props.type}
@@ -25,6 +31,7 @@ class BaseInput extends React.Component {
                     required={this.props.required}
                     value={this.props.value}
                 />
+                {errors}
             </div>
         );
     }
@@ -39,6 +46,7 @@ BaseInput.propTypes = {
     placeholder: PropTypes.string,
     required: PropTypes.bool,
     value: PropTypes.any,
+    errors: PropTypes.array,
 };
 
 export default BaseInput;
