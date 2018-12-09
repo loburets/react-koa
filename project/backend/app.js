@@ -10,6 +10,7 @@ const bodyParser = require('koa-bodyparser');
 const passport = require('./auth/passport');
 const session = require('koa-generic-session');
 const db = require('./models');
+const send = require('koa-send');
 // todo replace to some proper session storage like as Redis
 const SequelizeSessionStore = require('koa-generic-session-sequelize');
 
@@ -57,6 +58,9 @@ app.use(bodyParser())
     .use(passport.initialize())
     .use(passport.session())
     .use(router.routes())
-    .use(router.allowedMethods());
+    .use(router.allowedMethods())
+    .use(async ctx => {
+        await send(ctx, 'public/index.html');
+    });
 
 module.exports = server;
