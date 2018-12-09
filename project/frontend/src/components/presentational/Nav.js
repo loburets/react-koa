@@ -75,7 +75,6 @@ class Nav extends React.Component {
 
 const mapStateToProps = (state) => ({
     // todo: use /me api point for initial state
-    // todo: fix route fail on page reload
     isLoggedIn: typeof state.auth !== 'undefined' && typeof state.auth.id !== 'undefined',
 });
 
