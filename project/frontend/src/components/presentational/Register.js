@@ -33,7 +33,7 @@ class Register extends React.Component {
                                    name={"firstName"}
                                    placeholder={"First name"}
                                    required={true}
-                                   value={this.props.inputs.firstName}
+                                   value={this.props.inputs.firstName || ''}
                                    errors={this.getInputErrors('firstName')}
                         />
                         <BaseInput handleInputChange={this.props.handleInputChange}
@@ -43,7 +43,7 @@ class Register extends React.Component {
                                    name={"lastName"}
                                    placeholder={"Last name"}
                                    required={true}
-                                   value={this.props.inputs.lastName}
+                                   value={this.props.inputs.lastName || ''}
                                    errors={this.getInputErrors('lastName')}
                         />
                         <BaseInput handleInputChange={this.props.handleInputChange}
@@ -53,7 +53,7 @@ class Register extends React.Component {
                                    name={"email"}
                                    placeholder={"Enter email"}
                                    required={true}
-                                   value={this.props.inputs.email}
+                                   value={this.props.inputs.email || ''}
                                    errors={this.getInputErrors('email')}
                         />
                         <BaseInput handleInputChange={this.props.handleInputChange}
@@ -63,7 +63,7 @@ class Register extends React.Component {
                                    name={"password"}
                                    placeholder={"Password"}
                                    required={true}
-                                   value={this.props.inputs.password}
+                                   value={this.props.inputs.password || ''}
                                    errors={this.getInputErrors('password')}
                         />
                         <button type="submit" className="btn btn-primary">Submit</button>

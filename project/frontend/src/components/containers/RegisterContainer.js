@@ -9,12 +9,7 @@ class RegisterContainer extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.setErrors = this.setErrors.bind(this);
         this.state = {
-            inputs: {
-                firstName: '',
-                lastName: '',
-                email: '',
-                password: '',
-            },
+            inputs: {},
             errors: []
         };
     }
