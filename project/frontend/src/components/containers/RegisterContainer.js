@@ -1,6 +1,8 @@
 import React from 'react';
 import RequestHelper from '../../utils/RequestHelper';
 import Register from '../presentational/Register';
+import { connect } from 'react-redux';
+import { loginUser } from '../../actions'
 
 class RegisterContainer extends React.Component {
     constructor(props) {
@@ -30,11 +32,17 @@ class RegisterContainer extends React.Component {
             })
             .then(RequestHelper.throwIfErrorStatus)
             .then(data => data.json())
-            // todo save to redux
-            .then(data => console.log(data))
+            .then(data => {
+                this.props.dispatch(loginUser(data));
+            })
             .catch((error) => {
-                if (!error.response || error.response.status !== 422) {
-                    return [];
+                // some js error, throw it forward
+                if (!error.response) {
+                    throw error;
+                }
+                // not the validation error, connection error, not found etc
+                if (error.response.status !== 422) {
+                    throw error;
                 }
                 return error.response.json().then(this.setErrors);
             });
@@ -70,4 +78,4 @@ class RegisterContainer extends React.Component {
     }
 }
 
-export default RegisterContainer;
+export default connect()(RegisterContainer);
