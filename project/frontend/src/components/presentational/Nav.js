@@ -1,5 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux'
+import { Link } from "react-router-dom";
+import routes from "../../routes";
+import NavbarRight from "./NavbarRight";
 
 class Nav extends React.Component {
     constructor(props) {
@@ -33,31 +36,36 @@ class Nav extends React.Component {
                             <span className="icon-bar"></span>
                         </button>
 
-                        <a className="navbar-brand" href="/">
-                            Social Network
-                        </a>
+                        <Link className="navbar-brand" to="/">Social Network</Link>
                     </div>
 
                     <div className="collapse navbar-collapse" style={{display: this.state.collapsedNavbarIsOpened ? 'block' : 'none' }}>
                         <ul className="nav navbar-nav">
-                            <li><a href="/">Home</a></li>
+                            <li><Link to="/">Home</Link></li>
                         </ul>
 
-                        <ul className="nav navbar-nav navbar-right" onClick={this.handleRightDropdownChange}>
-                            {!this.props.isLoggedIn ? (
-                                <li><a href="/">Login</a></li>
-                            ) : (
+                        {!this.props.isLoggedIn ? (
+                            <NavbarRight>
+                                <li key="Sign In"><Link to="/">Sign In</Link></li>
+                                <li key="Sign Up"><Link to={routes.sigUp}>Sign Up</Link></li>
+                            </NavbarRight>
+                        ) : (
+                            <NavbarRight>
                                 <li className="dropdown">
-                                    <a href="#" className="dropdown-toggle" role="button">
+                                    <a href="#" className="dropdown-toggle" role="button"
+                                        onClick={this.handleRightDropdownChange}
+                                    >
                                         Vasya <span className="caret"></span>
                                     </a>
 
-                                    <ul className="dropdown-menu" role="menu" style={{display: this.state.rightDropdownIsOpened ? 'block' : 'none' }}>
-                                        <li><a href="/"><i className="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                                    <ul className="dropdown-menu" role="menu"
+                                        style={{display: this.state.rightDropdownIsOpened ? 'block' : 'none' }}
+                                    >
+                                        <li><Link to="/"><i className="fa fa-btn fa-sign-out"></i>Logout</Link></li>
                                     </ul>
                                 </li>
-                            )}
-                        </ul>
+                            </NavbarRight>
+                        )}
                     </div>
                 </div>
             </nav>
@@ -66,9 +74,9 @@ class Nav extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    // todo: use /me api point for initial state and routing
-    // isLoggedIn: typeof state.auth !== undefined && typeof state.id !== undefined,
-    isLoggedIn: true,
+    // todo: use /me api point for initial state
+    // todo: fix route fail on page reload
+    isLoggedIn: typeof state.auth !== 'undefined' && typeof state.auth.id !== 'undefined',
 });
 
 export default connect(

@@ -34,6 +34,7 @@ class RegisterContainer extends React.Component {
             .then(RequestHelper.throwIfErrorStatus)
             .then(data => data.json())
             .then(data => {
+                // todo redirect on success
                 this.props.dispatch(loginUser(data));
             })
             .catch((error) => {
