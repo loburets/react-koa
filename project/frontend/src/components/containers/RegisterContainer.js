@@ -12,6 +12,7 @@ class RegisterContainer extends React.Component {
         this.setErrors = this.setErrors.bind(this);
         this.state = {
             inputs: {},
+            // array because one field can have few errors
             errors: []
         };
     }
