@@ -1,3 +1,4 @@
 export default {
-    sigUp: '/sign-up/'
+    sigUp: '/sign-up/',
+    login: '/login/',
 };

@@ -2,6 +2,7 @@ import React from 'react';
 import '../styles/components/App.css';
 import '../styles/base/base.scss'
 import RegisterContainer from "./containers/RegisterContainer";
+import LoginContainer from "./containers/LoginContainer";
 import Nav from "./presentational/Nav";
 import routes from "../routes";
 import { Route } from "react-router-dom";
@@ -37,6 +38,7 @@ class App extends React.Component {
                 <Nav />
                 <div className="container">
                     <Route path={routes.sigUp} component={RegisterContainer}/>
+                    <Route path={routes.login} component={LoginContainer}/>
                 </div>
             </div>
         );

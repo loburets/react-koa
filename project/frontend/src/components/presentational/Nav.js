@@ -46,7 +46,7 @@ class Nav extends React.Component {
 
                         {!this.props.isLoggedIn ? (
                             <NavbarRight>
-                                <li key="Sign In"><Link to="/">Sign In</Link></li>
+                                <li key="Sign In"><Link to={routes.login}>Sign In</Link></li>
                                 <li key="Sign Up"><Link to={routes.sigUp}>Sign Up</Link></li>
                             </NavbarRight>
                         ) : (
