@@ -32,5 +32,13 @@ exports.createUser = async ctx => {
         email: body.email,
     });
 
+    ctx.login(user, (err) => {
+        if (err) {
+            ctx.throw(401, err.message);
+        }
+        ctx.status = 200;
+        ctx.body = user;
+    });
+
     ctx.body = user;
 };

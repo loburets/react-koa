@@ -5,8 +5,32 @@ import RegisterContainer from "./containers/RegisterContainer";
 import Nav from "./presentational/Nav";
 import routes from "../routes";
 import { Route } from "react-router-dom";
+import RequestHelper from "../utils/RequestHelper";
+import {loginUser} from "../actions";
+import connect from "react-redux/es/connect/connect";
 
 class App extends React.Component {
+    constructor(props) {
+        super(props);
+        fetch('/api/v1/me', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(RequestHelper.throwIfErrorStatus)
+            .then(data => data.json())
+            .then(data => {
+                this.props.dispatch(loginUser(data));
+            })
+            .catch((error) => {
+                // some unexpected error, throw it forward
+                if (error.response && error.response.status !== 401) {
+                    throw error;
+                }
+            });
+    }
+
     render() {
         return (
             <div>
@@ -19,4 +43,4 @@ class App extends React.Component {
     }
 }
 
-export default App;
+export default connect()(App);
