@@ -12,7 +12,7 @@ router.get('/users/:id', usersController.getUser);
 router.post('/users', usersValidator.createUser, usersController.createUser);
 
 // todo add validation for login
-router.post('/login', authController.login);
+router.post('/login', usersValidator.login, authController.login);
 router.post('/logout', authController.logout);
 
 module.exports = router;
