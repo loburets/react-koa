@@ -1,26 +1,9 @@
 import React from 'react';
 import BaseInput from './BaseInput';
 import PropTypes from "prop-types";
+import FormHelper from "../../utils/FormHelper";
 
 class Register extends React.Component {
-    constructor(props) {
-        super(props);
-        this.getInputErrors = this.getInputErrors.bind(this);
-    }
-
-    getInputErrors(name) {
-        let errors = [];
-
-        this.props.errors.forEach((error) => {
-            if (error.input !== name) {
-                return;
-            }
-            errors.push(error);
-        });
-
-        return errors;
-    }
-
     render() {
         return (
             <div className="row">
@@ -34,7 +17,7 @@ class Register extends React.Component {
                                    placeholder={"First name"}
                                    required={true}
                                    value={this.props.inputs.firstName || ''}
-                                   errors={this.getInputErrors('firstName')}
+                                   errors={FormHelper.getInputErrors('firstName', this.props.errors)}
                         />
                         <BaseInput handleInputChange={this.props.handleInputChange}
                                    title={"Last name"}
@@ -44,7 +27,7 @@ class Register extends React.Component {
                                    placeholder={"Last name"}
                                    required={true}
                                    value={this.props.inputs.lastName || ''}
-                                   errors={this.getInputErrors('lastName')}
+                                   errors={FormHelper.getInputErrors('lastName', this.props.errors)}
                         />
                         <BaseInput handleInputChange={this.props.handleInputChange}
                                    title={"Email address"}
@@ -54,7 +37,7 @@ class Register extends React.Component {
                                    placeholder={"Enter email"}
                                    required={true}
                                    value={this.props.inputs.email || ''}
-                                   errors={this.getInputErrors('email')}
+                                   errors={FormHelper.getInputErrors('email', this.props.errors)}
                         />
                         <BaseInput handleInputChange={this.props.handleInputChange}
                                    title={"Password"}
@@ -64,7 +47,7 @@ class Register extends React.Component {
                                    placeholder={"Password"}
                                    required={true}
                                    value={this.props.inputs.password || ''}
-                                   errors={this.getInputErrors('password')}
+                                   errors={FormHelper.getInputErrors('password', this.props.errors)}
                         />
                         <button type="submit" className="btn btn-primary">Submit</button>
                     </form>

@@ -9,9 +9,10 @@ const router = new Router({
 router.get('/me', usersController.getMe);
 router.get('/user', usersController.getUser);
 router.get('/users/:id', usersController.getUser);
+// todo do not allow to authorized user
 router.post('/users', usersValidator.createUser, usersController.createUser);
 
-// todo add validation for login
+// todo do not allow to authorized user
 router.post('/login', usersValidator.login, authController.login);
 router.post('/logout', authController.logout);
 
