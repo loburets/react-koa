@@ -45,12 +45,20 @@ passport.serializeUser((user, done) => {
     done(null, user.id);
 });
 
-passport.deserializeUser((userId, done) => {
-    // todo Fetch real user data from db
+passport.deserializeUser(async (userId, done) => {
+    let user;
+
+    try {
+        user = await db.User.findById(userId);
+    } catch (e) {
+        //
+    }
+
     done(null, {
-        email: 'test@example.com',
-        password: 'password',
-        id: 1
+        id: user.id,
+        email: user.email,
+        first_name: user.first_name,
+        last_name: user.last_name,
     });
 });
 
