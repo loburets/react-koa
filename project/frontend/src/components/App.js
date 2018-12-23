@@ -9,6 +9,7 @@ import { Route } from "react-router-dom";
 import RequestHelper from "../utils/RequestHelper";
 import {loginUser} from "../actions";
 import connect from "react-redux/es/connect/connect";
+import GuestRoute from "./containers/GuestRoute";
 
 class App extends React.Component {
     constructor(props) {
@@ -37,8 +38,8 @@ class App extends React.Component {
             <div>
                 <Nav />
                 <div className="container">
-                    <Route path={routes.sigUp} component={RegisterContainer}/>
-                    <Route path={routes.login} component={LoginContainer}/>
+                    <GuestRoute path={routes.sigUp} component={RegisterContainer}/>
+                    <GuestRoute path={routes.login} component={LoginContainer}/>
                 </div>
             </div>
         );
