@@ -18,7 +18,9 @@ exports.getUser = ctx => {
 
 exports.getMe = ctx => {
     if (ctx.isUnauthenticated()) {
-        ctx.throw(401, 'Unauthenticated');
+        ctx.status = 401;
+        ctx.body = { message: 'Unauthenticated' };
+        return;
     }
     ctx.status = 200;
     ctx.body = ctx.state.user;
@@ -34,7 +36,9 @@ exports.createUser = async ctx => {
 
     ctx.login(user, (err) => {
         if (err) {
-            ctx.throw(401, err.message);
+            ctx.status = 401;
+            ctx.body = { message: err.message };
+            return;
         }
         ctx.status = 200;
         ctx.body = user;

@@ -5,15 +5,16 @@ const usersValidator = require('./validators/users');
 const router = new Router({
     prefix: '/api/v1'
 });
+const rejectUnauthorized = require('./middlewares/reject-unauthorized');
+const rejectAuthorized = require('./middlewares/reject-authorized');
 
 router.get('/me', usersController.getMe);
 router.get('/user', usersController.getUser);
 router.get('/users/:id', usersController.getUser);
-// todo do not allow to authorized user
 router.post('/users', usersValidator.createUser, usersController.createUser);
 
 // todo do not allow to authorized user
-router.post('/login', usersValidator.login, authController.login);
-router.post('/logout', authController.logout);
+router.post('/login', rejectAuthorized, usersValidator.login, authController.login);
+router.post('/logout', rejectAuthorized, authController.logout);
 
 module.exports = router;
