@@ -13,6 +13,7 @@ const db = require('./models');
 const send = require('koa-send');
 // todo replace to some proper session storage like as Redis
 const SequelizeSessionStore = require('koa-generic-session-sequelize');
+const config = require('./config/config.json');
 
 const port = process.env.PORT || PORT;
 const app = new Koa();
@@ -36,8 +37,7 @@ compiler.watch({}, () => {
   /* eslint-enable no-console */
 });
 
-// todo move to config
-app.keys = ['some secret'];
+app.keys = [config.appSecret];
 
 app.use(serve('public'));
 
