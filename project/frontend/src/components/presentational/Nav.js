@@ -55,7 +55,7 @@ class Nav extends React.Component {
                                     <a href="#" className="dropdown-toggle" role="button"
                                         onClick={this.handleRightDropdownChange}
                                     >
-                                        Vasya <span className="caret"></span>
+                                        {this.props.firstName} {this.props.lastName} <span className="caret"></span>
                                     </a>
 
                                     <ul className="dropdown-menu" role="menu"
@@ -75,6 +75,8 @@ class Nav extends React.Component {
 
 const mapStateToProps = (state) => ({
     isLoggedIn: typeof state.auth !== 'undefined' && typeof state.auth.id !== 'undefined',
+    firstName: typeof state.auth !== 'undefined' && state.auth.firstName,
+    lastName: typeof state.auth !== 'undefined' && state.auth.lastName,
 });
 
 export default connect(

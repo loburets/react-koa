@@ -5,6 +5,8 @@ const auth = (state = [], action) => {
                 ...state,
                 id: action.id,
                 email: action.email,
+                firstName: action.firstName,
+                lastName: action.lastName,
             };
         default:
             return state;
