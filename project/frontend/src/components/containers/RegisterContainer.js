@@ -1,4 +1,3 @@
-import React from 'react';
 import Register from '../presentational/Register';
 import { connect } from 'react-redux';
 import withFormHandlers from './high-order/WithFormHandlers';

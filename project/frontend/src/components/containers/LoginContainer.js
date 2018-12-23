@@ -15,6 +15,7 @@ let onError = function (error) {
     if (typeof error.response === 'undefined' || error.response.status !== 401) {
         throw error;
     }
+    // todo get from response
     let message = 'Wrong email or password';
 
     this.setErrors([
