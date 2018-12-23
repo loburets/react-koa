@@ -23,6 +23,7 @@
   "homepage": "https://bitbucket.org/ttschool/project-template#readme",
   "dependencies": {
     "babel-core": "^6.26.0",
+    "bcrypt": "^3.0.2",
     "joi": "^14.0.6",
     "koa": "^2.6.1",
     "koa-bodyparser": "^4.2.1",

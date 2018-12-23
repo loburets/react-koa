@@ -18,6 +18,10 @@ module.exports = {
         type: Sequelize.STRING,
         unique: true
       },
+      password: {
+        type: Sequelize.STRING,
+        unique: true
+      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE

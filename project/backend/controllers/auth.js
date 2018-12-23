@@ -1,18 +1,18 @@
 const passport = require('../auth/passport');
 
 exports.login = async ctx => {
-    if (ctx.isAuthenticated()) {
-        return ctx.status = 200;
-    }
-
     await passport.authenticate('local', {}, async (err, user) => {
         if (!user) {
-            ctx.throw(401, 'Incorrect login/password');
+            ctx.status = 401;
+            ctx.body = { message: 'Incorrect login/password' };
+            return;
         }
 
         ctx.login(user, (err) => {
             if (err) {
-                ctx.throw(401, err.message);
+                ctx.status = 401;
+                ctx.body = { message: err.message };
+                return;
             }
             ctx.status = 200;
             ctx.body = user;

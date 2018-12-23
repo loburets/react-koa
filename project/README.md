@@ -10,6 +10,7 @@ This repo contains the template of the project for TT Developers School 2018.
 ## How to install requirements:
 1. npm install
 2. cd ./frontend && npm install
+3. cd ../backend && ../node_modules/.bin/sequelize db:migrate
 
 ## How to run app:
 1. npm start
