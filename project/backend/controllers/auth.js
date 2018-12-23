@@ -4,7 +4,7 @@ exports.login = async ctx => {
     await passport.authenticate('local', {}, async (err, user) => {
         if (!user) {
             ctx.status = 401;
-            ctx.body = { message: 'Incorrect login/password' };
+            ctx.body = { message: 'Incorrect email/password' };
             return;
         }
 

@@ -2,6 +2,7 @@ const passport = require('koa-passport');
 const LocalStrategy = require('passport-local');
 const db = require('../models');
 const bcrypt = require('bcrypt');
+const showFieldsByUser = require('./show-fields-by-user');
 
 const options = {
     usernameField: 'email',
@@ -35,10 +36,7 @@ passport.use('local', new LocalStrategy(options, async (email, password, done) =
         return done(null, false);
     }
 
-    return done(null, {
-        email,
-        id: user.id
-    });
+    return done(null, showFieldsByUser(user));
 }));
 
 passport.serializeUser((user, done) => {
@@ -54,12 +52,7 @@ passport.deserializeUser(async (userId, done) => {
         //
     }
 
-    done(null, {
-        id: user.id,
-        email: user.email,
-        first_name: user.first_name,
-        last_name: user.last_name,
-    });
+    done(null, showFieldsByUser(user));
 });
 
 module.exports = passport;

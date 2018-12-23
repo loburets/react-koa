@@ -1,7 +1,7 @@
 import React from 'react';
 import RequestHelper from "../../../utils/RequestHelper";
 
-export default (WrappedComponent, url, requestOptions = {}, onSuccess = ()=>{}) => {
+export default (WrappedComponent, url, requestOptions = {}, onSuccess = ()=>{}, onError = (error)=>{throw error}) => {
     return class extends React.Component {
         constructor(props) {
             super(props);
@@ -9,6 +9,7 @@ export default (WrappedComponent, url, requestOptions = {}, onSuccess = ()=>{}) 
             this.handleSubmit = this.handleSubmit.bind(this);
             this.setErrors = this.setErrors.bind(this);
             onSuccess = onSuccess.bind(this);
+            onError = onError.bind(this);
             this.state = {
                 inputs: {},
                 // array because one field can have few errors
@@ -26,7 +27,7 @@ export default (WrappedComponent, url, requestOptions = {}, onSuccess = ()=>{}) 
                 },
                 ...requestOptions
             })
-            // reset errors from the last call if they exist
+                // reset errors from the last call if they exist
                 .then((data) => {
                     this.setState({errors: []});
                     return data
@@ -44,7 +45,8 @@ export default (WrappedComponent, url, requestOptions = {}, onSuccess = ()=>{}) 
                         throw error;
                     }
                     return error.response.json().then(this.setErrors);
-                });
+                })
+                .catch(onError);
 
             event.preventDefault();
         }

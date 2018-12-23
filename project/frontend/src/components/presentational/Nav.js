@@ -61,6 +61,7 @@ class Nav extends React.Component {
                                     <ul className="dropdown-menu" role="menu"
                                         style={{display: this.state.rightDropdownIsOpened ? 'block' : 'none' }}
                                     >
+                                        {/*todo*/}
                                         <li><Link to="/"><i className="fa fa-btn fa-sign-out"></i>Logout</Link></li>
                                     </ul>
                                 </li>
