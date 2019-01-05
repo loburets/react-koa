@@ -4,12 +4,15 @@ import { Link } from "react-router-dom";
 
 import routes from "../../routes";
 import NavbarRight from "./NavbarRight";
+import RequestHelper from "../../utils/RequestHelper";
+import {logout} from "../../actions";
 
 class Nav extends React.Component {
     constructor(props) {
         super(props);
         this.handleRightDropdownChange = this.handleRightDropdownChange.bind(this);
         this.handleCollapsedNavbar = this.handleCollapsedNavbar.bind(this);
+        this.handleLogout = this.handleLogout.bind(this);
         this.state = {
             rightDropdownIsOpened: false,
             collapsedNavbarIsOpened: false,
@@ -22,6 +25,23 @@ class Nav extends React.Component {
 
     handleCollapsedNavbar() {
         this.setState({collapsedNavbarIsOpened: !this.state.collapsedNavbarIsOpened});
+    }
+
+    handleLogout() {
+        fetch('/api/v1/logout', {
+            method: 'POST',
+        })
+            .then(RequestHelper.throwIfErrorStatus)
+            .then(() => {
+                this.props.dispatch(logout());
+                this.setState({rightDropdownIsOpened: false})
+            })
+            .catch((error) => {
+                // some unexpected error, throw it forward
+                if (error.response && error.response.status !== 401) {
+                    throw error;
+                }
+            });
     }
 
     render() {
@@ -62,8 +82,12 @@ class Nav extends React.Component {
                                     <ul className="dropdown-menu" role="menu"
                                         style={{display: this.state.rightDropdownIsOpened ? 'block' : 'none' }}
                                     >
-                                        {/*todo*/}
-                                        <li><Link to="/"><i className="fa fa-btn fa-sign-out"></i>Logout</Link></li>
+                                        <li>
+                                            <a href="#" onClick={this.handleLogout}>
+                                                <i className="fa fa-btn fa-sign-out"></i>
+                                                Logout
+                                            </a>
+                                        </li>
                                     </ul>
                                 </li>
                             </NavbarRight>
