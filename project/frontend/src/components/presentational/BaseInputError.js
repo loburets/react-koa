@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 class BaseInputError extends React.Component {
     render() {
         return (
-            <span key={this.props.index} className="help-block">
+            <span className="help-block">
                 <strong>{this.props.message}</strong>
             </span>
         );

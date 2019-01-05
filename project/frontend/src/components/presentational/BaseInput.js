@@ -27,7 +27,7 @@ class BaseInput extends React.Component {
                     value={this.props.value}
                 />
                 {this.props.errors.map((error, index) =>
-                    <BaseInputError index={index} message={error.message} />
+                    <BaseInputError key={index} message={error.message} />
                 )}
             </div>
         );
