@@ -9,11 +9,9 @@ export default (WrappedComponent, url, requestOptions = {}, onSuccess = ()=>{}, 
             this.handleInputChange = this.handleInputChange.bind(this);
             this.handleSubmit = this.handleSubmit.bind(this);
             this.setErrors = this.setErrors.bind(this);
-            onSuccess = onSuccess.bind(this);
-            onError = onError.bind(this);
             this.state = {
                 inputs: {},
-                // array because one field can have few errors
+                // separate array because one field can have few errors
                 errors: []
             };
         }
@@ -68,11 +66,13 @@ export default (WrappedComponent, url, requestOptions = {}, onSuccess = ()=>{}, 
 
         // todo: add display name wrapping: https://reactjs.org/docs/higher-order-components.html#convention-wrap-the-display-name-for-easy-debugging
         render() {
+            let errors = this.props.customErrors ? this.state.errors.concat(this.props.customErrors) : this.state.errors;
+
             return <WrappedComponent
                 handleInputChange={this.handleInputChange}
                 handleSubmit={this.handleSubmit}
                 inputs={this.state.inputs}
-                errors={this.state.errors}
+                errors={errors}
                 {...this.props}
             />;
         }

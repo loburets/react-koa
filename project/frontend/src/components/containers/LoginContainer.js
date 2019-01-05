@@ -4,27 +4,40 @@ import { connect } from 'react-redux';
 import Login from '../presentational/Login';
 import withFormHandlers from './high-order/WithFormHandlers';
 import {loginUser} from "../../actions";
+import {Redirect} from "react-router-dom";
 
 const requestOptions = {
     method: 'POST',
 };
-const onSuccess = function (data) {
-    // todo redirect on success
-    this.props.dispatch(loginUser(data));
-};
-const onError = function (error) {
-    if (typeof error.response === 'undefined' || error.response.status !== 401) {
-        throw error;
+let LoginWithFormHandlers;
+
+class LoginContainer extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {customErrors: []};
+        this.onSuccess = this.onSuccess.bind(this);
+        this.onError = this.onError.bind(this);
+        LoginWithFormHandlers = withFormHandlers(Login, '/api/v1/login', requestOptions, this.onSuccess, this.onError);
     }
-    // todo get from response
-    const message = 'Wrong email or password';
 
-    this.setErrors([
-        {
-            field: 'password',
-            message,
-        },
-    ]);
-};
+    onSuccess(data) {
+        this.props.dispatch(loginUser(data));
+    }
 
-export default connect()(withFormHandlers(Login, '/api/v1/login', requestOptions, onSuccess, onError));
+    async onError(error) {
+        if (typeof error.response === 'undefined' || error.response.status !== 401) {
+            throw error;
+        }
+        const data = await error.response.json();
+        this.setState({customErrors: [{input:'password', message: data.message}]})
+    }
+
+    render() {
+        return (
+            <LoginWithFormHandlers customErrors={this.state.customErrors}/>
+        );
+
+    }
+}
+
+export default connect()(LoginContainer);
