@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import BaseInputError from './BaseInputError';
 
 class BaseInput extends React.Component {
     constructor(props) {
@@ -12,12 +13,6 @@ class BaseInput extends React.Component {
     }
 
     render() {
-        const errors = this.props.errors.map((error, index) =>
-            <span key={index} className="help-block">
-                <strong>{error.message}</strong>
-            </span>
-        );
-
         return (
             <div className={"form-group " + (this.props.errors.length ? 'has-error' : '')}>
                 <label htmlFor={this.props.id}>{this.props.title}</label>
@@ -31,7 +26,9 @@ class BaseInput extends React.Component {
                     required={this.props.required}
                     value={this.props.value}
                 />
-                {errors}
+                {this.props.errors.map((error, index) =>
+                    <BaseInputError index={index} message={error.message} />
+                )}
             </div>
         );
     }

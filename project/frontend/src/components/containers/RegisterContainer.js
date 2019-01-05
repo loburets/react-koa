@@ -1,12 +1,13 @@
-import Register from '../presentational/Register';
 import { connect } from 'react-redux';
+
+import Register from '../presentational/Register';
 import withFormHandlers from './high-order/WithFormHandlers';
 import {loginUser} from "../../actions";
 
-let requestOptions = {
+const requestOptions = {
     method: 'POST',
 };
-let onSuccess = function (data) {
+const onSuccess = function (data) {
     // todo redirect on success
     this.props.dispatch(loginUser(data));
 };

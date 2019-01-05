@@ -4,12 +4,13 @@ import {
 } from "react-router-dom";
 import {connect} from "react-redux";
 import React from "react";
-import routes from "../../routes";
 import {withRouter} from 'react-router'
+
+import routes from "../../routes";
 
 class GuestRoute extends React.Component {
     render() {
-        let { component: Component, ...props } = this.props;
+        const { component: Component, ...props } = this.props;
         return (
             <Route
                 {...props}

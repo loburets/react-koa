@@ -1,22 +1,23 @@
 import React from 'react';
-import Login from '../presentational/Login';
 import { connect } from 'react-redux';
+
+import Login from '../presentational/Login';
 import withFormHandlers from './high-order/WithFormHandlers';
 import {loginUser} from "../../actions";
 
-let requestOptions = {
+const requestOptions = {
     method: 'POST',
 };
-let onSuccess = function (data) {
+const onSuccess = function (data) {
     // todo redirect on success
     this.props.dispatch(loginUser(data));
 };
-let onError = function (error) {
+const onError = function (error) {
     if (typeof error.response === 'undefined' || error.response.status !== 401) {
         throw error;
     }
     // todo get from response
-    let message = 'Wrong email or password';
+    const message = 'Wrong email or password';
 
     this.setErrors([
         {

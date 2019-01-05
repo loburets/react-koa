@@ -1,4 +1,5 @@
 import React from 'react';
+
 import RequestHelper from "../../../utils/RequestHelper";
 
 export default (WrappedComponent, url, requestOptions = {}, onSuccess = ()=>{}, onError = (error)=>{throw error}) => {
@@ -19,12 +20,10 @@ export default (WrappedComponent, url, requestOptions = {}, onSuccess = ()=>{}, 
 
         handleSubmit(event) {
             fetch(url, {
-                ...{
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(this.state.inputs)
+                headers: {
+                    'Content-Type': 'application/json'
                 },
+                body: JSON.stringify(this.state.inputs),
                 ...requestOptions
             })
                 // reset errors from the last call if they exist
@@ -52,7 +51,7 @@ export default (WrappedComponent, url, requestOptions = {}, onSuccess = ()=>{}, 
         }
 
         setErrors(data) {
-            let errors = [];
+            const errors = [];
             data.forEach((error) => errors.push({input:error.field, message:error.message}));
             this.setState({errors});
         }
@@ -67,6 +66,7 @@ export default (WrappedComponent, url, requestOptions = {}, onSuccess = ()=>{}, 
             });
         }
 
+        // todo: add display name wrapping: https://reactjs.org/docs/higher-order-components.html#convention-wrap-the-display-name-for-easy-debugging
         render() {
             return <WrappedComponent
                 handleInputChange={this.handleInputChange}

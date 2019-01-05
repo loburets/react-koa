@@ -1,6 +1,6 @@
 class FormHelper {
     static getInputErrors (name, errors) {
-        let result = [];
+        const result = [];
 
         errors.forEach((error) => {
             if (error.input !== name) {
