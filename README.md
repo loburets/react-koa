@@ -1,7 +1,7 @@
 # React + Koa - sign up and sign in
 This is my experiments / self-education / practice.
 
-##What was used
+## What was used
 - React
 - Redux
 - React-router
@@ -12,8 +12,8 @@ This is my experiments / self-education / practice.
 - Chai / Mocha
 
 ## Requirements:
-- Node v10.x
-- NPM v5.x
+- Node 10.x
+- NPM 5.x
 - MysQL
 
 ## How to install:
