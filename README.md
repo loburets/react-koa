@@ -1,5 +1,5 @@
 # React + Koa - sign up and sign in
-This is my experiments/self-education/practice.
+This is my experiments / self-education / practice.
 
 ##What was used
 - React
