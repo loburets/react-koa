@@ -36,7 +36,6 @@ class LoginContainer extends React.Component {
         return (
             <LoginWithFormHandlers customErrors={this.state.customErrors}/>
         );
-
     }
 }
 
