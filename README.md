@@ -1,6 +1,8 @@
 # React + Koa - sign up and sign in
 This is my experiments / self-education / practice.
 
+Naturally, no LLMs involved — they weren’t even in use back in 2019 when this repo was created.
+
 ## What was used
 - React
 - Redux
